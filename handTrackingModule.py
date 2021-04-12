@@ -1,15 +1,18 @@
 import cv2
 import time
 import mediapipe as mp
+import math
+import pycaw
 
 
 class handDetector():
-    def __init__(self, mode=False, maxHands=2, detectionConfid=0.5, trackConfid=0.5):
+    def __init__(self, mode=False, maxHands=2, detectionConfid=0.5, trackConfid=0.5, displayFingerTips=True):
         self.mode = mode
         self.maxHands = maxHands
         self.detectionConfid = detectionConfid
         self.trackConfid = trackConfid
         self.mpHands = mp.solutions.hands
+        self.displayFingerTips = displayFingerTips
         self.hands = self.mpHands.Hands(
             self.mode, self.maxHands, self.detectionConfid, self.trackConfid)
         self.mpDraw = mp.solutions.drawing_utils
@@ -41,34 +44,47 @@ class handDetector():
                     if id == 4 or id == 8 or id == 12 or id == 16 or id == 20:
                         cv2.circle(img, (cx, cy), 15,
                                    (255, 0, 255), cv2.FILLED)
-                        cv2.putText(img, str(id), (cx-5, cy-10),
-                                    cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 3)
+                        if self.displayFingerTips:
+                            cv2.putText(img, str(id), (cx-5, cy-10),
+                                        cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 3)
+
         return lmList
 
 
-def main():
-    pTime = 0
-    cTime = 0
-    cap = cv2.VideoCapture(0)
-    detector = handDetector(detectionConfid=.7)
-    while True:
-        success, img = cap.read()
-        img = detector.findHands(img)
-        lmList = detector.findPosition(img)
-        if len(lmList) != 0:
-            print(lmList[0])
+# def main():
+#     pTime = 0
+#     cTime = 0
+#     cap = cv2.VideoCapture(0)
+#     detector = handDetector(detectionConfid=.7, displayFingerTips=False)
+#     while True:
+#         success, img = cap.read()
+#         img = detector.findHands(img)
+#         lmList = detector.findPosition(img, draw=False)
+#         if len(lmList) != 0:
+#             x1, y1 = lmList[4][1], lmList[4][2]  # get location of thumb
 
-        cTime = time.time()
-        fps = 1/(cTime-pTime)
-        pTime = cTime
+#             x2, y2 = lmList[8][1], lmList[8][2]  # get location of index finger
+#             # find midpoint between the two fingers
+#             cx, cy = (x1+x2)//2, (y1+y2)//2
+
+#             cv2.line(img, (x1, y1), (x2, y2), (255, 255, 0), 3)
+#             cv2.circle(img, (cx, cy), 10, (255, 30, 50), cv2.FILLED)
+
+#             length = math.hypot(x2-x1, y2-y1)
+#             if length < 30:
+#                 cv2.circle(img, (cx, cy), 10, (0, 255, 0), cv2.FILLED)
+#             print(length)
+
+#         cTime = time.time()
+#         fps = 1/(cTime-pTime)
+#         pTime = cTime
+
+#         cv2.putText(img, str(int(fps)), (10, 70),
+#                     cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
+
+#         cv2.imshow("Image", img)
+#         cv2.waitKey(1)
 
 
-        cv2.putText(img, str(int(fps)), (10, 70),
-                    cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
-
-        cv2.imshow("Image", img)
-        cv2.waitKey(1)
-
-
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
