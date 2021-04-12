@@ -3,22 +3,23 @@ import mediapipe as mp
 import time
 import handTrackingModule as htm
 import math
+import numpy as np
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 
-def volumeManipulator():
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(
-        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = cast(interface, POINTER(IAudioEndpointVolume))
-    # volume.GetMute()
-    # volume.GetMasterVolumeLevel()
-    volumeRange = volume.GetVolumeRange()
-    minVolume = volumeRange[0]
-    maxVolume = volumeRange[1]
-    #volume.SetMasterVolumeLevel(-20.0, None)
+# def volumeManipulator():
+devices = AudioUtilities.GetSpeakers()
+interface = devices.Activate(
+    IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+volume = cast(interface, POINTER(IAudioEndpointVolume))
+# volume.GetMute()
+# volume.GetMasterVolumeLevel()
+volumeRange = volume.GetVolumeRange()
+minVolume = volumeRange[0]
+maxVolume = volumeRange[1]
+
 
 
 pTime = 0
@@ -29,7 +30,7 @@ while True:
     success, img = cap.read()
     img = detector.findHands(img)
     lmList = detector.findPosition(img, draw=False)
-    volumeManipulator()
+    #volumeManipulator()
     if len(lmList) != 0:
         x1, y1 = lmList[4][1], lmList[4][2]  # get location of thumb
 
@@ -48,7 +49,8 @@ while True:
         # hand range 200 to 30
         # volume range is -65.25 - 0
 
-        vol = np.interp(length, [30, 200], [minVolume, maxVolume])
+        vol = np.interp(length, [30, 175], [minVolume, maxVolume])
+        volume.SetMasterVolumeLevel(vol, None)
         print(vol)
 
     cTime = time.time()
