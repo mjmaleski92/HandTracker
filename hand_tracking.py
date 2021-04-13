@@ -71,29 +71,37 @@ while True:
         if thumbUp and indexUp and middleUp and ringUp and pinkyUp: #find 5 fingers
             cv2.putText(img,str(5),(lmList[0][1],lmList[0][2]),cv2.FONT_ITALIC,3,(0,0,0),5)
 
-        if indexUp and middleUp and ringUp and pinkyUp and not thumbUp:
+        if indexUp and middleUp and ringUp and pinkyUp and not thumbUp: # 4 fingers
             cv2.putText(img,str(4),(lmList[0][1],lmList[0][2]),cv2.FONT_ITALIC,3,(0,0,0),5)
 
-        if indexUp and middleUp and not ringUp and thumbUp and not pinkyUp:
+        if indexUp and middleUp and not ringUp and thumbUp and not pinkyUp: # 3 fingers
             cv2.putText(img,str(3),(lmList[0][1],lmList[0][2]),cv2.FONT_ITALIC,3,(0,0,0),5)
 
-        if indexUp and middleUp and not ringUp  and not thumbUp and not pinkyUp :
+        if indexUp and middleUp and not ringUp  and not thumbUp and not pinkyUp : #2
             cv2.putText(img,str(2),(lmList[0][1],lmList[0][2]),cv2.FONT_ITALIC,3,(0,0,0),5)
 
-        if indexUp and not middleUp and not ringUp  and not thumbUp and not pinkyUp :
+        if indexUp and not middleUp and not ringUp  and not thumbUp and not pinkyUp :#1
             cv2.putText(img,str(1),(lmList[0][1],lmList[0][2]),cv2.FONT_ITALIC,3,(0,0,0),5)
 
-        if indexUp and middleUp and ringUp  and  thumbUp and not pinkyUp :
+        if indexUp and middleUp and ringUp  and  thumbUp and not pinkyUp : #6
             cv2.putText(img,str(6),(lmList[0][1],lmList[0][2]),cv2.FONT_ITALIC,3,(0,0,0),5)
 
-        if indexUp and middleUp and not ringUp  and  thumbUp and pinkyUp :
+        if indexUp and middleUp and not ringUp  and  thumbUp and pinkyUp :#7
             cv2.putText(img,str(7),(lmList[0][1],lmList[0][2]),cv2.FONT_ITALIC,3,(0,0,0),5)
         
-        if indexUp and not middleUp and ringUp  and  thumbUp and  pinkyUp :
+        if indexUp and not middleUp and ringUp  and  thumbUp and  pinkyUp :#8
             cv2.putText(img,str(8),(lmList[0][1],lmList[0][2]),cv2.FONT_ITALIC,3,(0,0,0),5)
 
-        if not indexUp and middleUp and ringUp  and  thumbUp and pinkyUp :
+        if not indexUp and middleUp and ringUp  and  thumbUp and pinkyUp :#9
             cv2.putText(img,str(9),(lmList[0][1],lmList[0][2]),cv2.FONT_ITALIC,3,(0,0,0),5)
+        
+        if not indexUp and not middleUp and not ringUp  and  thumbUp and not pinkyUp :#A
+            cv2.putText(img,str("A"),(lmList[0][1],lmList[0][2]),cv2.FONT_ITALIC,3,(0,0,0),5)
+
+        if indexUp and middleUp and  ringUp  and not  thumbUp and pinkyUp :#B
+            cv2.putText(img,str("B"),(lmList[0][1],lmList[0][2]),cv2.FONT_ITALIC,3,(0,0,0),5)
+
+        print(thumbUp,indexUp,middleUp,ringUp,pinkyUp)
 
     cTime = time.time()
     fps = 1/(cTime-pTime)
