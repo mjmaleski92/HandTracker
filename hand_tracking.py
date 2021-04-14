@@ -24,7 +24,6 @@ while True:
     middleUp = True
     ringUp = True
     pinkyUp = True
-    # volumeManipulator()
     if len(lmList) != 0:
         thumbKnucklex, thumbKnuckleY = lmList[2][1], lmList[2][2]
         indexKnuckleX, indexKnuckleY = lmList[6][1], lmList[6][2]
