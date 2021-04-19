@@ -1,8 +1,5 @@
 import cv2
-import time
 import mediapipe as mp
-import math
-import pycaw
 
 
 class handDetector():
